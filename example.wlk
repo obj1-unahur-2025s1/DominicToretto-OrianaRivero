@@ -1,9 +1,124 @@
-object pepita {
-  var energy = 100
-
-  method energy() = energy
-
-  method fly(minutes) {
-    energy = energy - minutes * 3
+object dominic{
+  const autos = []
+  method comprar(unAuto){
+    autos.add(unAuto)
   }
+  method autosNoEnCondiciones(){
+    return
+      autos.filter({a=>!a.estaEnCondiciones()})
+  }
+  method autosEnCondiciones(){
+    return
+      autos.filter({a=>a.estaEnCondiciones()})
+  }
+  method repararLosAutos(){
+    taller.recibirAutos(self.autosNoEnCondiciones())
+  }
+  method realizarPruebasDeVelocidad(){
+    autos.forEach({a=>a.hacerPrueba()})
+  }
+  method venderAutos(){
+    autos.clear()
+  }
+  method promedioVelocidades(){
+    autos.sum({a=>a.velocidadMaxima()}) / autos.size()
+  }
+  method autoMasRapido(){
+    return
+      self.autosEnCondiciones().max({a=>a.velocidadMaxima()})
+  }
+  method hayUnAutoMuyRapido(){
+    return
+      self.autoMasRapido().velocidadMaxima() > 2 * self.promedioVelocidades()
+  }
+}
+
+object taller{
+  const autosAReparar = []
+  method recibirAutos(listaDeAutos){
+    autosAReparar.addAll(listaDeAutos)
+  }
+  method repararAutos(){
+    autosAReparar.forEach({a=>a.reparar()})
+    autosAReparar.clear()
+  }
+}
+
+object ferrari{
+  var motor = 87
+  method estaEnCondiciones(){
+    motor >= 65
+  }
+  method reparar(){
+    motor = 100
+  }
+  method velocidadMaxima(){
+    110 + if(motor>75) 15 else 0
+  }
+  method hacerPrueba(){
+    motor = (motor -30).max(0)
+  }
+}
+
+object flechaRubi{
+  var cantidadLitrosCombustible = 100
+  var property combustible = gasolina
+  var property color = azul
+  //method combustible() = combustible //getter
+  //method combustible(unCombustible) = {combustible = unValor} //setter
+  method estaEnCondiciones(){
+    return 
+      cantidadLitrosCombustible > combustible.nivelMinimo() 
+      && color == rojo
+  }
+  method hacerPrueba(){
+    cantidadLitrosCombustible = (cantidadLitrosCombustible-5).max(0)
+  }
+  method reparar(){
+    cantidadLitrosCombustible = cantidadLitrosCombustible*2
+    color.cambiarColor()
+  }
+  method velocidadMaxima(){
+    return
+      cantidadLitrosCombustible * 2 + combustible.calculoAdicional(cantidadLitrosCombustible)
+
+  }
+}
+
+object intocable{
+  var property estaEnCondiciones = true
+  method hacerPrueba(){
+    estaEnCondiciones = false
+  }
+  method reparar(){
+    estaEnCondiciones = true
+  }
+  method velocidadMaxima() = 45
+}
+
+object gasolina{
+  method nivelMinimo() = 85
+  method calculoAdicional(litros) = 10
+}
+
+object nafta{
+  method nivelMinimo() = 50
+  method calculoAdicional(litros) = -1 * ((litros *2)* 0.10)
+}
+
+object nitrogeno{
+  method nivelMinimo() = 0
+  method calculoAdicional(litros) = litros * 2 * 10
+}
+
+object azul{
+  method cambiarDeColor() = verde
+}
+
+object rojo{
+  method cambiarDeColor() = azul
+}
+
+object verde{
+  method cambiarDeColor() = rojo
 }
