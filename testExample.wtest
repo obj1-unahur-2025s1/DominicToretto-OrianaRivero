@@ -1,2 +1,7 @@
 import example.*
 
+test "Dominic compra un ferrari y un flecha rubi y se fija si tiene 1 auto en condiciones"{
+    dominic.comprar(ferrari)
+    dominic.comprar(flechaRubi)
+    assert.equals(1, dominic.autosEnCondiciones().size())
+}

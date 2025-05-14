@@ -7,10 +7,7 @@ object dominic{
     return
       autos.filter({a=>!a.estaEnCondiciones()})
   }
-  method autosEnCondiciones(){
-    return
-      autos.filter({a=>a.estaEnCondiciones()})
-  }
+  method autosEnCondiciones() = autos.filter({a=>a.estaEnCondiciones()})
   method repararLosAutos(){
     taller.recibirAutos(self.autosNoEnCondiciones())
   }
@@ -47,7 +44,7 @@ object taller{
 object ferrari{
   var motor = 87
   method estaEnCondiciones(){
-    motor >= 65
+    return motor >= 65
   }
   method reparar(){
     motor = 100
